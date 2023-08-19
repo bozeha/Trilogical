@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useEffect } from "react";
 import { login } from "./utils/functions";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import signalR, { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 function App() {
   useEffect(() => {
     login();
@@ -17,6 +17,8 @@ function App() {
     try {
       const connection = new HubConnectionBuilder()
         .withUrl(hubUrl, {
+          skipNegotiation: true,
+          transport: signalR.HttpTransportType.WebSockets,
           accessTokenFactory: async () => jwtToken, // Pass the JWT token to the connection
         })
         .configureLogging(LogLevel.Information)

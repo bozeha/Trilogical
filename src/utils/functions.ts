@@ -1,11 +1,11 @@
 export const login = async () => {
-  const loginUrl = "https://62.90.114.24:9106/api/admin/login";
+  const loginUrl = "http://62.90.114.24:9106/api/admin/login";
   const cardinal = {
     username: "test",
     password: "test123",
   };
   try {
-    fetch(loginUrl, {
+    const toekn = await fetch(loginUrl, {
       body: JSON.stringify(cardinal),
       method: "POST",
       headers: {
@@ -18,7 +18,9 @@ export const login = async () => {
       .then((val) => {
         //connectSignalr(val.token);
         console.log(`val::::::${JSON.stringify(val)}:::val-END`);
+        return val.token;
       });
+    return toekn;
   } catch (error) {
     console.log(`Error:::${error}`);
     return "";

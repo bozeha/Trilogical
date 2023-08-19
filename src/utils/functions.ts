@@ -1,5 +1,5 @@
 export const login = async () => {
-  const loginUrl = "http://62.90.114.24:9106/api/admin/login";
+  const loginUrl = "https://62.90.114.24:9106/api/admin/login";
   const cardinal = {
     username: "test",
     password: "test123",

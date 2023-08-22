@@ -26,3 +26,5 @@ export const login = async () => {
     return "";
   }
 };
+
+const test = () => {};

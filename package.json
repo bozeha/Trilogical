@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aspnet/signalr": "^1.0.27",
     "@microsoft/signalr": "^7.0.10",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +15,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "signalr": "^2.4.3",
+    "socks-proxy-agent": "^8.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },

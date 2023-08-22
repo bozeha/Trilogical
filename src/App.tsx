@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useEffect } from "react";
 import { login } from "./utils/functions";
+import * as signalR from "@aspnet/signalr";
 
 import {
   HttpTransportType,
@@ -12,6 +13,7 @@ import {
 
 function App() {
   const [connection, setConnection] = useState<any>();
+
   const flow = async () => {
     login().then((token) => JoinRoom(token));
   };
@@ -25,39 +27,46 @@ function App() {
     const jwtToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXNlck5hbWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJEcml2ZXIiLCJHZW5lcmljSWQiOiI1ZTUwMjEwMS02MWZjLTQzYmUtOGQ5Zi1kZmU3ZDIzZjQyOWEiLCJFeHBpcmF0aW9uIjoiMjAyMy0wOC0xOSAxNjozMToyMyIsIlNlcnZlcklkIjoiNjM4MTk4MzUyNDE5NjE1MjM0IiwiQ2xpZW50RW51bWVyYXRlIjoiNjM4Mjc5NzMwODMzODUxMDE2IiwiZXhwIjoxNjkyNDYyNjgzLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjkxMDYiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjkxMDYifQ.0Ud6wOWepLX5qH51cpPmHw_TnvVz2uQIG7g_vCQVi-Y";
     try {
-      const connection = new HubConnectionBuilder()
-        .withUrl("http://62.90.114.24:9106/ClientHub", {
-          withCredentials: true,
-          accessTokenFactory: async () => token, // Pass the JWT token to the connection
-          skipNegotiation: true,
-          transport: HttpTransportType.WebSockets,
+      //////////////////////////aaaaaa///////////////////////
+      const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl(hubUrl, {
+          accessTokenFactory: async () => token,
         })
-        .configureLogging(LogLevel.Information)
+        .configureLogging(signalR.LogLevel.Information)
         .build();
-
+      hubConnection.start();
+      //////////////////////////aaaaaa///////////////////////
+      //////////////////////////bbbbb//////////////////////
+      // const connection = new HubConnectionBuilder()
+      //   .withUrl(hubUrl, {
+      //     withCredentials: true,
+      //     accessTokenFactory: async () => token, // Pass the JWT token to the connection
+      //     skipNegotiation: true,
+      //     transport: HttpTransportType.WebSockets,
+      //   })
+      //   .configureLogging(LogLevel.Information)
+      //   .build();
+      ///////////////////////////////////
       // connection.onclose((e) => {
       //   setConnection();
       //   setMessages([]);
       //   setUsers([]);
       // });
-
-      // Define a function to handle received data
+      //Define a function to handle received data
       const handleData = (data: any) => {
         console.log("Received data:", data);
       };
-
-      // Start the SignalR connection and handle incoming data
-      connection
-        .start()
-        .then(() => {
-          console.log("Connected to SignalR hub");
-          connection.on("ReceiveData", handleData);
-        })
-        .catch((error) => {
-          console.error("Error connecting to SignalR hub:", error);
-        });
-
-      // Cleanup: stop the connection when the component unmounts
+      ///Start the SignalR connection and handle incoming data
+      // connection
+      //   .start()
+      //   .then(() => {
+      //     console.log("Connected to SignalR hub");
+      //     connection.on("ReceiveData", handleData);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error connecting to SignalR hub:", error);
+      //   });
+      //Cleanup: stop the connection when the component unmounts
       // return () => {
       //   connection.stop();
       // };
